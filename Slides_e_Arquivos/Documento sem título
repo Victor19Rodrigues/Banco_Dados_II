@@ -1,0 +1,35 @@
+   consulta   foi   feita   em   um   banco   de   dados   que   possui   uma   tabela 
+com   373605   registros. 
+Primeiramente, foi analisado quanto tempo é necessário para a consulta
+ de todos os registros dessa 
+tabela, e o tempo foi de 99 segundos. 
+
+SELECT * FROM contact WHERE LastName = 'Stewart' AND  FirstName='Isabella'  
+
+Para a criação do índice, foi utilizado um índice composto de doi
+s atributos, sendo eles faixaetaria e 
+uf, ambos do tipo varchar. O código desta vez foi: 
+
+CREATE INDEX index_teste USING btree ON contact (
+LastName, FirstName); 
+
+               O tempo gasto para a criação deste índice foi de 2.6 segundos. 
+               Tendo o tempo da consulta e o índice criado, agora já podemos executar novamente a mesma consulta. 
+               Com   a   consulta   feita   pela   segunda   fez,   analisamos   que   o   tempo   gasto   foi
+   de   40.922 
+milissegundos para a execução da mesma consulta, 99% do tempo gasto na 
+primeira consulta.  
+               Este tempo esmagadoramente menor é justificado pelo caminho utilizado 
+pela consulta com 
+índice.  Nestes  casos,  o  espaço  de  busca  é  reduzido,  consequentemente 
+gastando  um  tempo  muito 
+menor do que a consulta comum
+
+Utilizando  a  base  de dados  escolhida  pelo  grupo, foram  selecionadas  algumas  p
+esquisas  específicas 
+para  se  realizar  o  teste  de  eficiência  utilizando  os  diferentes  tipos
+ de  índices.  Abaixo, são  descritos 
+os índices criados e as consultas utilizadas para o cálculo de eficiê
+ncia. Além das consultas, també
+m 
+foi analisado o tempo de criação de cada um dos índices utilizados. 
