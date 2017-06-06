@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/Main.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/Venda/VendaCadastraView.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/control/ctrPrincipal.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/model/Item_venda.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/Produto/ProdutoCadastraView.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/ItemVenda/ItemRemoveView.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/control/ctrProduto.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/model/DAO.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/viewPrincipal.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/control/ctrItens.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/Produto/ProdutoConsultaView.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/Produto/ProdutoDeleteView.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/model/Produto.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/control/ctrVenda.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/ItemVenda/ItemCadastraView.java</file>
+            <file>file:/home/victor/NetBeansProjects/mercado/src/view/Produto/ProdutoAtualizaView.java</file>
+        </group>
+    </open-files>
+</project-private>

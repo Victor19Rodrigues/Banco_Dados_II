@@ -1,0 +1,114 @@
+Nome: Victor Rodrigues da Silva - 31054
+
+
+Questão 1 : Gere e implemente o modelo físico do MER da figura 1, incluindo os
+atributos, os tipos de dados, e as regras de integridade gerais. Garanta que:
+a) Todos os atributos são obrigatórios.
+b) Os atributos relativos aos nomes são únicos.
+c) O preço do produto é um número real positivo.
+d) O CPF do Vendedor é uma string de 11 posições.
+e) Caso existam chaves estrangeiras, defina alteração em cascata.
+
+CREATE DATABASE loja;
+
+CREATE TABLE vendas(
+	codigo int NOT NULL,
+	data date NOT NULL,
+	valor_total real NOT NULL,
+	CPF_vendedor char(11) NOT NULL,
+	PRIMARY KEY (codigo)
+);
+
+CREATE TABLE produtos(
+	codigo int NOT NULL,
+	nome varchar(100) unique NOT NULL,
+	quant_estoque int NOT NULL,
+	preco real NOT NULL,
+	check (preco > 0),
+	PRIMARY KEY (codigo)
+);
+
+CREATE TABLE itens_venda(
+	cod_vendas int NOT NULL,
+	cod_produtos int NOT NULL,
+	quantidade int NOT NULL,
+	PRIMARY KEY (cod_vendas, cod_produtos),
+	FOREIGN KEY (cod_vendas) REFERENCES vendas(codigo) ON UPDATE CASCADE,
+	FOREIGN KEY (cod_produtos) REFERENCES produtos(codigo) ON UPDATE CASCADE
+);
+
+Questão 2 : Cadastre no banco, no mínimo, 3 Vendas e 4 Produtos.
+
+INSERT INTO vendas VALUES (1,'2017-02-14', 155.10, '12315454881');
+INSERT INTO vendas VALUES (2,'2017-01-16', 15.15, '62598714535');
+INSERT INTO vendas VALUES (3,'2017-02-05', 11.25, '41987778512');
+
+INSERT INTO produtos VALUES (11,'Camiseta Polo', 10, 55.90);
+INSERT INTO produtos VALUES (12,'Calça Jeans', 155, 100.50);
+INSERT INTO produtos VALUES (13,'Tênis Azul', 16, 159.90);
+INSERT INTO produtos VALUES (14,'Meia', 200, 25.00);
+
+Questão 3: Crie um trigger para que, a cada item de venda incluído, o estoque do
+respectivo produto seja automaticamente atualizado (decrementado) na tabela
+produtos. Caso a quantidade do produto no estoque seja menor que a quantidade que
+se pretende vender, o sistema não deve deixar que a venda seja feita.
+
+DELIMITER $$
+CREATE TRIGGER atualiza_produto AFTER INSERT 
+ON itens_venda
+FOR EACH ROW 
+BEGIN
+	IF EXISTS (SELECT * FROM produtos WHERE produtos.quant_estoque < NEW.quantidade AND produtos.codigo = NEW.cod_produtos) THEN
+		CALL FAIL('Quantidade insuficiente no estoque');
+	ELSE
+		UPDATE produtos 
+		SET quant_estoque = quant_estoque - NEW.quantidade
+		WHERE codigo = NEW.cod_produtos;
+	END IF;
+END$$
+DELIMITER ;
+
+//Testando
+INSERT INTO itens_venda VALUES (2,11,20);
+
+
+Questão 4: Crie um procedimento chamado vendas_por_vendedor que retorne o total
+de vendas de um vendedor em um intervalo de tempo. Caso o usuário não informe o
+CPF e a data inicial da consulta, um erro deverá ser informado. Caso o usuário não
+informe a data final da consulta, a mesma deverá ser feita até a data atual
+(current_date).
+
+DELIMITER $$
+CREATE PROCEDURE vendas_por_vendedor(IN data_Ini date, data_Fin date, cpf char(11))
+BEGIN
+	IF((data_Ini is NOT NULL) && (cpf is NOT NULL) && data_Fin is NOT NULL) THEN
+		SELECT sum(valor_total) FROM vendas v WHERE v.CPF_vendedor = cpf AND v.data BETWEEN data_Ini AND data_Fin;
+	ELSE IF((data_Fin is NULL)) THEN
+		SET data_Fin = current_date();
+		SELECT sum(valor_total) FROM vendas v WHERE v.CPF_vendedor = cpf AND v.data BETWEEN data_Ini AND data_Fin;
+	ELSE
+		SELECT 'Digite o CPF e a data inicial' AS Msg;
+	END IF;
+	END IF;
+END$$
+DELIMITER ;
+
+Questão 5: Crie um procedimento chamado insere_produto para inserir produtos na
+tabela Produtos. Trate os seguintes erros:
+ - Chamada do procedimento com valores nulos.
+
+DELIMITER $$
+CREATE PROCEDURE insere_produto (IN var_codigo int,	var_nome varchar(100), var_quant_estoque int, var_preco real)
+BEGIN
+	
+	IF ((var_codigo is NOT NULL) && (var_nome is NOT NULL) && (var_quant_estoque is NOT NULL) && (var_preco is NOT NULL)) THEN
+    	INSERT INTO produtos VALUES (var_codigo, var_nome, var_quant_estoque, var_preco);
+    ELSE
+    	SELECT 'Não digite valores nulos' AS Msg;
+    END IF;
+END$$
+DELIMITER ;
+
+
+
+
